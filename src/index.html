@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Tab</title>
+
+    <script type="module" src="/src/index.ts"></script>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body
+    class="overscroll-none bg-white dark:bg-stone-950 text-black dark:text-white p-10 flex justify-center items-center h-screen w-screen"
+  >
+    <div class="flex flex-col items-center gap-10 w-full">
+      <div class="w-full flex justify-center" x-data="search">
+        <input
+          type="text"
+          placeholder="search duckduckgo"
+          class="bg-transparent py-6 pr-6 border-b-4 placeholder:text-stone-500 dark:placeholder:text-stone-600 dark:border-white border-stone-900 text-3xl indent-1 w-full md:max-w-lg outline-none"
+          x-model="query"
+          @keyup.enter="search()"
+          autofocus
+        />
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "newtab",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "parcel serve src/index.html --port 3000",
+    "build": "parcel build src/index.html --public-url ./"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/alpinejs": "^3.7.1",
+    "parcel": "^2.10.3",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "alpinejs": "^3.12.0",
+    "autoprefixer": "^10.4.16"
+  }
+}
