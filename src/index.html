@@ -4,24 +4,98 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>New Tab</title>
-
     <script type="module" src="/src/index.ts"></script>
     <link rel="stylesheet" href="/src/styles.css" />
   </head>
   <body
-    class="overscroll-none bg-white dark:bg-stone-950 text-black dark:text-white p-10 flex justify-center items-center h-screen w-screen"
+    class="overscroll-none bg-white dark:bg-zinc-900 text-black dark:text-white p-10 flex justify-center items-center h-screen w-screen"
   >
-    <div class="flex flex-col items-center gap-10 w-full">
+    <div class="flex flex-col items-center gap-10" x-data="settingsModal">
       <div class="w-full flex justify-center" x-data="search">
         <input
           type="text"
           placeholder="search duckduckgo"
-          class="bg-transparent py-6 pr-6 border-b-4 placeholder:text-stone-500 dark:placeholder:text-stone-600 dark:border-white border-stone-900 text-3xl indent-1 w-full md:max-w-lg outline-none"
+          class="bg-transparent py-6 pr-6 border-b-2 placeholder:text-zinc-400 dark:placeholder:text-zinc-400 dark:border-zinc-400 border-zinc-400 text-2xl sm:text-3xl indent-1 w-full md:max-w-lg outline-none"
           x-model="query"
           @keyup.enter="search()"
           autofocus
         />
       </div>
+
+      <div class="w-full flex justify-center">
+        <div
+          class="flex flex-row flex-wrap gap-6 max-w-lg sm:w-full"
+          x-init="getItems()"
+        >
+          <template x-for="(item, index) in items" :key="index">
+            <a
+              :href="(item.link.startsWith('http://') || item.link.startsWith('https://')) ? item.link : 'http://' + item.link"
+              class="border-zinc-900 dark:border-zinc-400 border text-zinc-900 dark:text-white py-1 px-3 text-2xl rounded"
+              x-text="item.text"
+            ></a>
+          </template>
+        </div>
+      </div>
+
+      <!-- Settings Button -->
+      <div class="absolute top-4 right-4">
+        <button
+          @click="showModal = true"
+          class="bg-transparent dark:text-white text-zinc-900 text-5xl mt-2 mr-5"
+        >
+          ⚙︎
+        </button>
+      </div>
+
+      <template x-if="showModal">
+        <!-- Modal -->
+        <div
+          x-show="showModal"
+          @keydown.escape.window="showModal = false"
+          @click="showModal = false"
+          class="fixed inset-0 bg-white dark:bg-zinc-900 bg-opacity-50 h-full w-full flex justify-center items-center p-6"
+        >
+          <div
+            class="rounded-lg border-zinc-400 bg-white border p-10 dark:bg-zinc-900 flex flex-col gap-8 w-full md:max-w-lg"
+            @click.stop
+          >
+            <h2 class="text-xl">Setting up your anchor links</h2>
+
+            <!-- List Display -->
+            <template x-for="(item, index) in items" :key="index">
+              <div class="flex justify-between items-center gap-4 flex-wrap">
+                <span x-text="item.text"></span>
+                <span x-text="item.link"></span>
+                <button @click="removeItem(index)" class="text-2xl">❌</button>
+              </div>
+            </template>
+
+            <div class="flex flex-col gap-4 pt-2">
+              <h2 class="text-xl">Add a new item</h2>
+
+              <!-- Add Item Form -->
+              <input
+                type="text"
+                x-model="newItemText"
+                placeholder="Label"
+                class="border m-0 bg-transparent rounded border-zinc-400 p-2 w-full"
+              />
+              <input
+                type="text"
+                x-model="newItemLink"
+                placeholder="Link"
+                class="border m-0 bg-transparent rounded border-zinc-400 p-2 w-full"
+              />
+              <button
+                @click="addItem"
+                class="bg-transparent text-2xl rounded self-start"
+              >
+                ✅
+              </button>
+            </div>
+          </div>
+        </div>
+      </template>
     </div>
   </body>
 </html>

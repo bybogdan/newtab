@@ -585,6 +585,33 @@ window.Alpine = (0, _alpinejsDefault.default);
             if (this.query.length > 0) window.location.href = `https://duckduckgo.com/?q=${this.query.toLowerCase()}`;
         }
     }));
+(0, _alpinejsDefault.default).data("settingsModal", ()=>({
+        showModal: false,
+        items: JSON.parse(localStorage.getItem("items") || "[]"),
+        newItemText: "",
+        newItemLink: "",
+        getItems () {
+            this.items = JSON.parse(localStorage.getItem("items") || "[]");
+        },
+        addItem () {
+            if (this.newItemText && this.newItemLink) {
+                this.items.push({
+                    text: this.newItemText,
+                    link: this.newItemLink
+                });
+                this.newItemText = "";
+                this.newItemLink = "";
+                this.updateLocalStorage();
+            }
+        },
+        removeItem (index) {
+            this.items.splice(index, 1);
+            this.updateLocalStorage();
+        },
+        updateLocalStorage () {
+            localStorage.setItem("items", JSON.stringify(this.items));
+        }
+    }));
 (0, _alpinejsDefault.default).start();
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","alpinejs":"69hXP"}],"gkKU3":[function(require,module,exports) {
